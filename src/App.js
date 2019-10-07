@@ -35,7 +35,6 @@ const App = () => {
     const start = (event) => {
         event.preventDefault();
         setRender(false);
-
     };
 
     useEffect(() => {

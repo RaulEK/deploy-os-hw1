@@ -22,6 +22,7 @@ const FCFS = (props) => {
     const input = inputSeparator(props.values);
     const startTimes = input[0];
     const execTimes = input[1];
+    let averageWaitTime = 0;
 
     let jobIndexes = [];
 
@@ -30,9 +31,9 @@ const FCFS = (props) => {
     }
 
     return (
-
-        <Visualize startTimes={startTimes} execTimes={execTimes} jobIndexes={jobIndexes}/>
-
+        <div>
+            <Visualize startTimes={startTimes} execTimes={execTimes} jobIndexes={jobIndexes}/>
+        </div>
     )
 };
 
@@ -45,6 +46,7 @@ const SJF = (props) => {
     let finalStarts = [];
     let finalExecs = [];
     let jobIndexes = [];
+    let averageWaitTime = 0;
 
     let time = 0;
     let execution = 0;
@@ -56,11 +58,11 @@ const SJF = (props) => {
 
         for (let i = 0; i < startTimes.length; i++) {
             if (startTimes[i] <= time && (execTimes[i] < execTimes[smallestJob] || execTimes[smallestJob] === 0) && execTimes[i] > 0) {
-                console.log('vahetus');
                 if (execution !== 0) {
-                    finalStarts.push(time-execution);
+                    averageWaitTime += (time - execution);
+                    finalStarts.push(time - execution);
                     finalExecs.push(execution);
-                    jobIndexes.push(smallestJob+1);
+                    jobIndexes.push(smallestJob + 1);
 
                 }
                 smallestJob = i;
@@ -71,11 +73,11 @@ const SJF = (props) => {
         if (execTimes[smallestJob] > 0 && startTimes[smallestJob] <= time) {
             execTimes[smallestJob] = execTimes[smallestJob] - 1;
             execution++;
-        }
-        else if (execTimes[smallestJob] === 0 && execution > 0) {
-            finalStarts.push(time-execution);
+        } else if (execTimes[smallestJob] === 0 && execution > 0) {
+            averageWaitTime += (time - execution);
+            finalStarts.push(time - execution);
             finalExecs.push(execution);
-            jobIndexes.push(smallestJob+1);
+            jobIndexes.push(smallestJob + 1);
             execution = 0;
         }
 
@@ -83,15 +85,17 @@ const SJF = (props) => {
     }
 
     if (execution > 0) {
-        finalStarts.push(time-execution);
+        averageWaitTime += (time - execution);
+        finalStarts.push(time - execution);
         finalExecs.push(execution);
-        jobIndexes.push(smallestJob+1);
+        jobIndexes.push(smallestJob + 1);
     }
 
     return (
-
-        <Visualize startTimes={finalStarts} execTimes={finalExecs} jobIndexes={jobIndexes}/>
-
+        <div>
+            <p>Keskmine ooteaeg: {averageWaitTime/jobIndexes.length}</p>
+            <Visualize startTimes={finalStarts} execTimes={finalExecs} jobIndexes={jobIndexes}/>
+        </div>
     )
 };
 
