@@ -53,7 +53,7 @@ const SJF = (props) => {
     const arraySum = (arr) => arr.reduce((a, b) => a + b, 0);
 
     while (arraySum(execTimes) !== 0) {
-        console.log(smallestJob, time, execution);
+
         for (let i = 0; i < startTimes.length; i++) {
             if (startTimes[i] <= time && (execTimes[i] < execTimes[smallestJob] || execTimes[smallestJob] === 0) && execTimes[i] > 0) {
                 console.log('vahetus');
