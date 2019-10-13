@@ -4,9 +4,13 @@ class Visualize extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {startTimes: props.startTimes, execTimes: props.execTimes, jobIndexes: props.jobIndexes};
+        this.state = {
+            startTimes: props.startTimes,
+            execTimes: props.execTimes,
+            jobIndexes: props.jobIndexes,
+            averageWaitTime: props.averageWaitTime
+        };
     }
-
 
 
     componentDidMount() {
@@ -14,9 +18,14 @@ class Visualize extends React.Component {
         const ctx = canvas.getContext('2d');
         let distance = 0;
 
+        ctx.font = '16px Comic Sans Mr';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'bottom';
+        ctx.fillText(distance / 30, distance, 120);
+
         for (let i = 0; i < this.state.startTimes.length; i++) {
 
-            if (this.state.startTimes[i] > distance / 30) {
+            if (this.state.startTimes[i] > distance / 30) { // Punaste ristküliku joonistamine, kui ootel ühtegi programmi ei ole.
 
                 // Ristküliku joonistamine
                 ctx.beginPath();
@@ -39,7 +48,7 @@ class Visualize extends React.Component {
 
             }
 
-            // Ristküliku joonistamine
+            // Programmi ristküliku joonistamine
             ctx.beginPath();
             ctx.rect(distance, 0, this.state.execTimes[i] * 30, 100);
             distance += this.state.execTimes[i] * 30;
@@ -69,7 +78,10 @@ class Visualize extends React.Component {
 
     render() {
         return (
-            <canvas ref="canvas" width={1500} height={120}></canvas>
+            <div>
+                <p>Keskmine ooteag: {this.state.averageWaitTime}</p>
+                <canvas ref="canvas" width={1500} height={120}></canvas>
+            </div>
         )
     };
 }

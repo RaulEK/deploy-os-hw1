@@ -1,9 +1,11 @@
 import React from 'react';
-import {FCFS, SJF} from './Algorithms';
+import {FCFS, SRTF, RR4, TwoLevelFCFS} from './Algorithms';
 
 const algorithms = {
     fcfs: FCFS,
-    sjf: SJF
+    srtf: SRTF,
+    rr4: RR4,
+    tlfcfs: TwoLevelFCFS
 };
 
 const Result = (props) => {

@@ -20,8 +20,7 @@ const App = () => {
     const [algorithm, setAlgorithm] = useState('fcfs');
 
     const handleUserArray = (event) => {
-        setUserArray(event.target.value);
-        arrays[3].value = event.target.value.trim()
+        setUserArray(event.target.value.trim());
     };
 
     const handleChoice = (event) => {
@@ -35,6 +34,7 @@ const App = () => {
     const start = (event) => {
         event.preventDefault();
         setRender(false);
+        arrays[3].value = userArray;
     };
 
     useEffect(() => {
@@ -84,9 +84,12 @@ const App = () => {
                         </label>
                         <input value={userArray} onChange={handleUserArray}/>
                     </div>
+                    <h4>Vajuta nupule, et algoritm käivitada.</h4>
                     <div>
                         <button onClick={handleButton} value="fcfs" type="submit">FCFS</button>
-                        <button onClick={handleButton} value="sjf" type="submit">SJF</button>
+                        <button onClick={handleButton} value="srtf" type="submit">SRTF</button>
+                        <button onClick={handleButton} value="rr4" type="submit">RR4</button>
+                        <button onClick={handleButton} value="tlfcfs" type="submit">2 level FCFS</button>
                     </div>
                 </form>
             </div>
