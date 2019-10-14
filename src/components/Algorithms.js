@@ -113,37 +113,58 @@ const RR4 = (props) => {
     let time = 0;
     let execution = 0;
     let currentJob = null;
-
+    let workedJobs = [];
 
     while (arraySum(execTimes) !== 0) {
 
-        let anotherRound = true;
-
         // need to add queue for preference.
-        for (let i = currentJob === null ? 0 : currentJob; i < startTimes.length; i++) {
-            if (startTimes[i] <= time && execTimes[i] > 0 && i !== currentJob) {
+        for (let i = 0; i < startTimes.length; i++) {
+            if (startTimes[i] <= time && execTimes[i] > 0 && !workedJobs.includes(i)) {
                 currentJob = i;
+                if (execution !== 0) {
+                    finalStarts.push(time - execution);
+                    finalExecs.push(execution);
+                    jobIndexes.push(workedJobs[0] + 1);
+                    execution = 0;
+                }
                 break;
-            }
-            if (i === startTimes.length - 1 && anotherRound) {
-                i = -1;
-                anotherRound = false;
+            } else {
+                currentJob = null;
             }
         }
-        if (execTimes[currentJob] > 0 && startTimes[currentJob] <= time) {
-
+        if (currentJob !== null) {
             while (execTimes[currentJob] > 0 && execution < 2) {
                 execTimes[currentJob] = execTimes[currentJob] - 1;
                 execution++;
                 time++;
-
             }
 
             finalStarts.push(time - execution);
             finalExecs.push(execution);
             jobIndexes.push(currentJob + 1);
             execution = 0;
+            if (execTimes[currentJob] > 0) {
+                workedJobs.push(currentJob);
+            }
+        } else if (workedJobs.length > 0) {
+            console.log(workedJobs, jobIndexes);
+            currentJob = workedJobs[0];
+            execTimes[currentJob] = execTimes[currentJob] - 1;
+            execution++;
+            time++;
 
+            if (execTimes[currentJob] === 0) {
+                finalStarts.push(time - execution);
+                finalExecs.push(execution);
+                jobIndexes.push(workedJobs.shift() + 1);
+                execution = 0;
+            } else if (execution === 2) {
+                finalStarts.push(time - execution);
+                finalExecs.push(execution);
+                jobIndexes.push(workedJobs.shift() + 1);
+                execution = 0;
+                workedJobs.push(currentJob);
+            }
         } else {
             time++;
         }
@@ -168,46 +189,51 @@ const TwoLevelFCFS = (props) => {
 
     let time = 0;
     let execution = 0;
-    let currentJob = null;
+    let smallJob = null;
+    let bigJob = null;
 
     while (arraySum(execTimes) !== 0) {
-        for (let i = 0; i < startTimes.length; i++) {
-            if (startTimes[i] <= time && execTimes[i] > 0 && execTimes[i] < 6 && i !== currentJob) {
 
-                if (execution !== 0) {
+        for (let i = 0; i < startTimes.length; i++) {
+            console.log(smallJob, bigJob, execTimes, time);
+            if (startTimes[i] <= time && execTimes[i] > 0 && execTimes[i] < 6) {
+
+                if (execution !== 0 && i !== bigJob) {
                     finalStarts.push(time - execution);
                     finalExecs.push(execution);
-                    jobIndexes.push(currentJob + 1);
+                    jobIndexes.push(bigJob + 1);
                     execution = 0;
                 }
-                currentJob = i;
+                smallJob = i;
                 break;
-            } else if (startTimes[i] <= time && execTimes[i] > 0 && i !== currentJob) {
-                currentJob = i;
+            } else if (startTimes[i] <= time && execTimes[i] > 5 && bigJob === null) {
+                bigJob = i;
                 execution = 0;
             }
         }
 
-        if (execTimes[currentJob] > 0 && startTimes[currentJob] <= time) {
-
-            while (1 < execTimes[currentJob] && execTimes[currentJob] < 6) {
-                execTimes[currentJob] = execTimes[currentJob] - 1;
+        if (smallJob !== null) {
+            while (0 < execTimes[smallJob]) {
+                execTimes[smallJob] = execTimes[smallJob] - 1;
                 execution++;
                 time++;
             }
-
-            execTimes[currentJob] = execTimes[currentJob] - 1;
+            finalStarts.push(time - execution);
+            finalExecs.push(execution);
+            jobIndexes.push(smallJob + 1);
+            execution = 0;
+            smallJob = null;
+        } else if (bigJob !== null) {
+            execTimes[bigJob] = execTimes[bigJob] - 1;
             execution++;
             time++;
-
-            if (execTimes[currentJob] === 0) {
+            if (execTimes[bigJob] === 0) {
                 finalStarts.push(time - execution);
                 finalExecs.push(execution);
-                jobIndexes.push(currentJob + 1);
+                jobIndexes.push(bigJob + 1);
                 execution = 0;
-
+                bigJob = null;
             }
-
         } else {
             time++;
         }
