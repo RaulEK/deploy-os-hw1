@@ -29,8 +29,10 @@ const FCFS = (props) => {
 
     let jobIndexes = [];
 
-    // averagewaittime doesnt consider red rectangles, empty work should be added to servicetime
     for (let i = 0; i < startTimes.length; i++) {
+        if (startTimes[i] > serviceTime) {
+            serviceTime = startTimes[i]
+        }
         if (serviceTime > startTimes[i]) {
             averageWaitTime += serviceTime - startTimes[i];
         }
@@ -115,9 +117,10 @@ const RR4 = (props) => {
     let currentJob = null;
     let workedJobs = [];
 
+    averageWaitTime -= arraySum(execTimes) + arraySum(startTimes);
+
     while (arraySum(execTimes) !== 0) {
 
-        // need to add queue for preference.
         for (let i = 0; i < startTimes.length; i++) {
             if (startTimes[i] <= time && execTimes[i] > 0 && !workedJobs.includes(i)) {
                 currentJob = i;
@@ -133,7 +136,7 @@ const RR4 = (props) => {
             }
         }
         if (currentJob !== null) {
-            while (execTimes[currentJob] > 0 && execution < 4) {
+            while (execTimes[currentJob] > 0 && execution < 2) {
                 execTimes[currentJob] = execTimes[currentJob] - 1;
                 execution++;
                 time++;
@@ -143,11 +146,12 @@ const RR4 = (props) => {
             finalExecs.push(execution);
             jobIndexes.push(currentJob + 1);
             execution = 0;
-            if (execTimes[currentJob] > 0) {
+            if (execTimes[currentJob] === 0) {
+                averageWaitTime += time;
+            } else if (execTimes[currentJob] > 0) {
                 workedJobs.push(currentJob);
             }
         } else if (workedJobs.length > 0) {
-            console.log(workedJobs, jobIndexes);
             currentJob = workedJobs[0];
             execTimes[currentJob] = execTimes[currentJob] - 1;
             execution++;
@@ -157,8 +161,9 @@ const RR4 = (props) => {
                 finalStarts.push(time - execution);
                 finalExecs.push(execution);
                 jobIndexes.push(workedJobs.shift() + 1);
+                averageWaitTime += time;
                 execution = 0;
-            } else if (execution === 4) {
+            } else if (execution === 2) {
                 finalStarts.push(time - execution);
                 finalExecs.push(execution);
                 jobIndexes.push(workedJobs.shift() + 1);
@@ -193,6 +198,8 @@ const TwoLevelFCFS = (props) => {
     let smallJob = null;
     let bigJob = null;
 
+    averageWaitTime -= arraySum(execTimes) + arraySum(startTimes);
+
     while (arraySum(execTimes) !== 0) {
 
         for (let i = 0; i < startTimes.length; i++) {
@@ -212,8 +219,6 @@ const TwoLevelFCFS = (props) => {
             }
         }
 
-        console.log(bigJob);
-
         if (smallJob !== null) {
             while (0 < execTimes[smallJob]) {
                 execTimes[smallJob] = execTimes[smallJob] - 1;
@@ -225,6 +230,7 @@ const TwoLevelFCFS = (props) => {
             jobIndexes.push(smallJob + 1);
             execution = 0;
             smallJob = null;
+            averageWaitTime += time;
         } else if (bigJob !== null) {
             execTimes[bigJob] = execTimes[bigJob] - 1;
             execution++;
