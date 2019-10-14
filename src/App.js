@@ -89,7 +89,7 @@ const App = () => {
                         <button onClick={handleButton} value="fcfs" type="submit">FCFS</button>
                         <button onClick={handleButton} value="srtf" type="submit">SRTF</button>
                         <button onClick={handleButton} value="rr4" type="submit">RR4</button>
-                        <button onClick={handleButton} value="tlfcfs" type="submit">2 level FCFS</button>
+                        <button onClick={handleButton} value="tlfcfs" type="submit">2xFCFS</button>
                     </div>
                 </form>
             </div>

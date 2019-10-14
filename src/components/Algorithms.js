@@ -44,7 +44,7 @@ const FCFS = (props) => {
 
     return (
         <Visualize startTimes={startTimes} execTimes={execTimes} jobIndexes={jobIndexes}
-                   averageWaitTime={averageWaitTime / startTimes.length}/>
+                   averageWaitTime={averageWaitTime / startTimes.length} algorithm={'FCFS'}/>
     )
 };
 
@@ -97,7 +97,7 @@ const SRTF = (props) => {
 
     return (
         <Visualize startTimes={finalStarts} execTimes={finalExecs} jobIndexes={jobIndexes}
-                   averageWaitTime={averageWaitTime / startTimes.length}/>
+                   averageWaitTime={averageWaitTime / startTimes.length} algorithm={'SRTF'}/>
     )
 };
 
@@ -177,7 +177,7 @@ const RR4 = (props) => {
 
     return (
         <Visualize startTimes={finalStarts} execTimes={finalExecs} jobIndexes={jobIndexes}
-                   averageWaitTime={averageWaitTime / startTimes.length}/>
+                   averageWaitTime={averageWaitTime / startTimes.length} algorithm={'RR4'}/>
     )
 };
 
@@ -246,7 +246,7 @@ const TwoLevelFCFS = (props) => {
 
     return (
         <Visualize startTimes={finalStarts} execTimes={finalExecs} jobIndexes={jobIndexes}
-                   averageWaitTime={averageWaitTime / startTimes.length}/>
+                   averageWaitTime={averageWaitTime / startTimes.length} algorithm={'2xFCFS'}/>
     )
 };
 

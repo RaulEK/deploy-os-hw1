@@ -8,7 +8,8 @@ class Visualize extends React.Component {
             startTimes: props.startTimes,
             execTimes: props.execTimes,
             jobIndexes: props.jobIndexes,
-            averageWaitTime: props.averageWaitTime
+            averageWaitTime: props.averageWaitTime,
+            algorithm: props.algorithm
         };
     }
 
@@ -79,7 +80,7 @@ class Visualize extends React.Component {
     render() {
         return (
             <div>
-                <p>Keskmine ooteag: {this.state.averageWaitTime}</p>
+                <p>{this.state.algorithm} keskmine ooteag: {this.state.averageWaitTime}</p>
                 <canvas ref="canvas" width={1500} height={120}></canvas>
             </div>
         )
