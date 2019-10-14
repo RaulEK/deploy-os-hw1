@@ -133,7 +133,7 @@ const RR4 = (props) => {
             }
         }
         if (currentJob !== null) {
-            while (execTimes[currentJob] > 0 && execution < 2) {
+            while (execTimes[currentJob] > 0 && execution < 4) {
                 execTimes[currentJob] = execTimes[currentJob] - 1;
                 execution++;
                 time++;
@@ -158,7 +158,7 @@ const RR4 = (props) => {
                 finalExecs.push(execution);
                 jobIndexes.push(workedJobs.shift() + 1);
                 execution = 0;
-            } else if (execution === 2) {
+            } else if (execution === 4) {
                 finalStarts.push(time - execution);
                 finalExecs.push(execution);
                 jobIndexes.push(workedJobs.shift() + 1);
@@ -178,6 +178,7 @@ const RR4 = (props) => {
 
 const TwoLevelFCFS = (props) => {
 
+    // 2,3;5,7;6,10;12,4;13,3
     const input = inputSeparator(props.values);
     const startTimes = input[0];
     const execTimes = input[1];
@@ -195,10 +196,9 @@ const TwoLevelFCFS = (props) => {
     while (arraySum(execTimes) !== 0) {
 
         for (let i = 0; i < startTimes.length; i++) {
-            console.log(smallJob, bigJob, execTimes, time);
             if (startTimes[i] <= time && execTimes[i] > 0 && execTimes[i] < 6) {
 
-                if (execution !== 0 && i !== bigJob) {
+                if (execution !== 0 && smallJob !== i) {
                     finalStarts.push(time - execution);
                     finalExecs.push(execution);
                     jobIndexes.push(bigJob + 1);
@@ -211,6 +211,8 @@ const TwoLevelFCFS = (props) => {
                 execution = 0;
             }
         }
+
+        console.log(bigJob);
 
         if (smallJob !== null) {
             while (0 < execTimes[smallJob]) {
@@ -227,11 +229,8 @@ const TwoLevelFCFS = (props) => {
             execTimes[bigJob] = execTimes[bigJob] - 1;
             execution++;
             time++;
-            if (execTimes[bigJob] === 0) {
-                finalStarts.push(time - execution);
-                finalExecs.push(execution);
-                jobIndexes.push(bigJob + 1);
-                execution = 0;
+            if (execTimes[bigJob] === 5) {
+                smallJob = bigJob;
                 bigJob = null;
             }
         } else {
