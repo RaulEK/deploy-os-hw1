@@ -144,7 +144,7 @@ const RR4 = (props) => {
             }
         }
         if (currentJob !== null) {
-            while (execTimes[currentJob] > 0 && execution < 2) {
+            while (execTimes[currentJob] > 0 && execution < 4) {
                 execTimes[currentJob] = execTimes[currentJob] - 1;
                 execution++;
                 time++;
@@ -171,7 +171,7 @@ const RR4 = (props) => {
                 jobIndexes.push(workedJobs.shift() + 1);
                 averageWaitTime += time;
                 execution = 0;
-            } else if (execution === 2) {
+            } else if (execution === 4) {
                 finalStarts.push(time - execution);
                 finalExecs.push(execution);
                 jobIndexes.push(workedJobs.shift() + 1);
