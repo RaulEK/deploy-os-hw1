@@ -42,11 +42,15 @@ const FCFS = (props) => {
 
     }
 
+    averageWaitTime = (averageWaitTime / startTimes.length).toFixed(2);
+
     return (
+
         <Visualize startTimes={startTimes} execTimes={execTimes} jobIndexes={jobIndexes}
-                   averageWaitTime={averageWaitTime / startTimes.length} algorithm={'FCFS'}/>
+                   averageWaitTime={averageWaitTime} algorithm={'FCFS'} input={props.values}/>
+
     )
-};
+}; // FCFS end
 
 const SRTF = (props) => {
 
@@ -95,11 +99,15 @@ const SRTF = (props) => {
         time++;
     }
 
+    averageWaitTime = (averageWaitTime / startTimes.length).toFixed(2);
+
     return (
+
         <Visualize startTimes={finalStarts} execTimes={finalExecs} jobIndexes={jobIndexes}
-                   averageWaitTime={averageWaitTime / startTimes.length} algorithm={'SRTF'}/>
+                   averageWaitTime={averageWaitTime} algorithm={'SRTF'} input={props.values}/>
+
     )
-};
+}; // SRTF end
 
 const RR4 = (props) => {
 
@@ -175,15 +183,19 @@ const RR4 = (props) => {
         }
     }
 
+    averageWaitTime = (averageWaitTime / startTimes.length).toFixed(2);
+
     return (
         <Visualize startTimes={finalStarts} execTimes={finalExecs} jobIndexes={jobIndexes}
-                   averageWaitTime={averageWaitTime / startTimes.length} algorithm={'RR4'}/>
+                   averageWaitTime={averageWaitTime} algorithm={'RR4'} input={props.values}/>
+
     )
-};
+}; // RR4 end
 
 const TwoLevelFCFS = (props) => {
 
     // 2,3;5,7;6,10;12,4;13,3
+    // 0,7;1,6;1,2;3,1;4,6;5,3;27,8;29,3;30,1;30,5;48,3
     const input = inputSeparator(props.values);
     const startTimes = input[0];
     const execTimes = input[1];
@@ -244,11 +256,14 @@ const TwoLevelFCFS = (props) => {
         }
     }
 
+    averageWaitTime = (averageWaitTime / startTimes.length).toFixed(2);
+
     return (
+
         <Visualize startTimes={finalStarts} execTimes={finalExecs} jobIndexes={jobIndexes}
-                   averageWaitTime={averageWaitTime / startTimes.length} algorithm={'2xFCFS'}/>
+                   averageWaitTime={averageWaitTime} algorithm={'2xFCFS'} input={props.values}/>
     )
-};
+}; // TwoLevelFCFS end
 
 export {
     FCFS,

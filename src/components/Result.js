@@ -13,7 +13,6 @@ const Result = (props) => {
     const values = props.values;
     return (
         <SpecificAlgorithm values={values}/>
-
     )
 };
 

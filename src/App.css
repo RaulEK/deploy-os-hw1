@@ -28,3 +28,7 @@ button {
 .graph {
     margin: 10px 10px 10px 20px;
 }
+
+input {
+    font-size: 16px;
+}

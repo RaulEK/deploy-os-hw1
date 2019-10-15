@@ -10,6 +10,9 @@ const App = () => {
         {id: 3, name: 'Kolmas', value: "0,4;1,5;2,2;3,1;4,6;6,3"},
         {id: 4, name: 'Enda oma', value: ""}
     ]);
+    // for testing
+    // 2,3;5,7;6,10;12,4;13,3
+    // 0,7;1,6;1,2;3,1;4,6;5,3;27,8;29,3;30,1;30,5;48,3
 
     const [userArray, setUserArray] = useState('');
 
@@ -20,7 +23,7 @@ const App = () => {
     const [algorithm, setAlgorithm] = useState('fcfs');
 
     const handleUserArray = (event) => {
-        setUserArray(event.target.value.trim());
+        setUserArray(event.target.value.trim().replace(/,{2,}/, ',').replace(/;{2,}/, ';').replace(/[^0-9,;]/, ""));
     };
 
     const handleChoice = (event) => {
@@ -43,7 +46,7 @@ const App = () => {
 
     return (
         <div>
-            <h3>Vali või sisesta järjend (kujul 1,10;4,2;12,3;13,2)</h3>
+            <h3>Vali või sisesta järjend (kujul 1,10;4,2;12,3;13,2).</h3>
             <div>
                 <form onSubmit={start}>
                     <div className="radio">
@@ -97,7 +100,6 @@ const App = () => {
                 {render && <Result values={arrays[parseInt(choice)].value} algorithm={algorithm}/>}
             </div>
         </div>
-
     );
 };
 
