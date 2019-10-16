@@ -194,8 +194,6 @@ const RR4 = (props) => {
 
 const TwoLevelFCFS = (props) => {
 
-    // 2,3;5,7;6,10;12,4;13,3
-    // 0,7;1,6;1,2;3,1;4,6;5,3;27,8;29,3;30,1;30,5;48,3
     const input = inputSeparator(props.values);
     const startTimes = input[0];
     const execTimes = input[1];
