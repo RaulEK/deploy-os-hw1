@@ -213,7 +213,7 @@ const TwoLevelFCFS = (props) => {
     while (arraySum(execTimes) !== 0) {
 
         for (let i = 0; i < startTimes.length; i++) {
-            if (startTimes[i] <= time && execTimes[i] > 0 && execTimes[i] < 6) {
+            if (startTimes[i] <= time && execTimes[i] > 0 && execTimes[i] < 6 && i !== bigJob) {
 
                 if (execution !== 0 && smallJob !== i) {
                     finalStarts.push(time - execution);
@@ -245,9 +245,13 @@ const TwoLevelFCFS = (props) => {
             execTimes[bigJob] = execTimes[bigJob] - 1;
             execution++;
             time++;
-            if (execTimes[bigJob] === 5) {
-                smallJob = bigJob;
+            if (execTimes[bigJob] === 0) {
+                finalStarts.push(time - execution);
+                finalExecs.push(execution);
+                jobIndexes.push(bigJob + 1);
+                execution = 0;
                 bigJob = null;
+                averageWaitTime += time;
             }
         } else {
             time++;
